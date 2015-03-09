@@ -42,4 +42,18 @@
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *))restorationHandler
+{
+	// set selected view controller based on passed in user info
+	NSString *activeViewControllerName = userActivity.userInfo[@"viewController"];
+	UITabBarController *tabController = (UITabBarController *)self.window.rootViewController;
+	for (UIViewController *vc in tabController.viewControllers) {
+		if ([activeViewControllerName isEqualToString: NSStringFromClass([vc class])]) {
+			tabController.selectedViewController = vc;
+			break;
+		}
+	}
+	return YES;
+}
+
 @end
